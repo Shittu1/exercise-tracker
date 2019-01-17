@@ -40,7 +40,6 @@ app.post('/api/exercise/new-user', async (req, res, next) => {
 
 app.post('/api/exercise/add', async (req, res, next) => {
   try {
-
     if (!req.body.userId || !req.body.description
       || !req.body.duration || !req.body.date) {
       res.json({ Message: "All fields are required!" });
@@ -76,9 +75,7 @@ app.post('/api/exercise/add', async (req, res, next) => {
 
 // Log out the exercise of a particuler user
 app.get('/api/exercise/log', async (req, res, next) => {
-  // GET /api/exercise/log?
-  // {userId}[&from][&to][&limit]
-  let dateReg = /^[0-9]{4}-[0-9]{0,2}-[0-9]{0,2}/;
+  // GET /api/exercise/log?{userId}[&from][&to][&limit]
   const userId = req.query.userId;
   const from = new Date(req.query.from);
   const to = new Date(req.query.to);
