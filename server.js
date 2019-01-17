@@ -78,27 +78,19 @@ app.post('/api/exercise/add', async (req, res, next) => {
 app.get('/api/exercise/log', async (req, res, next) => {
   // GET /api/exercise/log?
   // {userId}[&from][&to][&limit]
-
-    let dateReg = /^[0-9]{4}-[0-9]{0,2}-[0-9]{0,2}/;
-    const userId = req.query.userId;
-    const from = new Date(req.query.from);
-    const to = new Date(req.query.to);
-    const limit = req.query.limit;
-    console.log(req.query);
+  let dateReg = /^[0-9]{4}-[0-9]{0,2}-[0-9]{0,2}/;
+  const userId = req.query.userId;
+  const from = new Date(req.query.from);
+  const to = new Date(req.query.to);
+  const limit = req.query.limit;
+  console.log(req.query);
+  if (!userId || !from || !to) {
+    res.json({ Message: "Enter the required query fields!" });
+  } else {
     await user.findOne({_id: userId}, (err, foundUser) => {
       let results = foundUser.exercise;
       if (err) {
-      //   res.json({message: err.message});
-      // } else if (!req.query) {
-      //   res.json({message: "query parameters have not been provided"});
-      // } else if (!userId) {
-      //   res.json({message: "userId is required"});
-      // } else if (!from || dateReg.test(from)) {
-      //   res.json({message: "enter the required date format: (YYYY-MM-DD)!"});
-      // }else if (!to || dateReg.test(to)) {
-      //   res.json({message: "enter the required date format: (YYYY-MM-DD)!"});
-      // } else if(!foundUser){
-      //   res.json({message: "userId not found!"});
+        res.json({message: err.message});
       } else {
         if (foundUser) {
           results = results.filter((item) => {
@@ -111,6 +103,7 @@ app.get('/api/exercise/log', async (req, res, next) => {
       } 
       res.json(results);
     });
+  }
 });
 
 
